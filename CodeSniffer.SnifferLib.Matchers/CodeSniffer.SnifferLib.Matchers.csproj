@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Version>0.0.1</Version>
+    <Authors>Mark van Renswoude</Authors>
+    <Company />
+    <Description>String matching helpers used in some CodeSniffer plugins.</Description>
+    <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MvRens/CodeSniffer.SnifferLib</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>

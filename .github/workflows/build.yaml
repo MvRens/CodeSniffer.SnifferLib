@@ -1,0 +1,48 @@
+name: CodeSniffer SnifferLib Build
+
+on:
+  push
+
+env:
+  NUGET_PACK_PARAMS: -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:PublishRepositoryUrl=true -p:EmbedUntrackedSources=true --output output -p:Configuration=Release -p:ContinuousIntegrationBuild=true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.15
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.15
+        with:
+          useConfigFile: true
+
+      - name: Setup .NET Core SDK 7
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Create NuGet packages
+        run: |
+          dotnet pack CodeSniffer.SnifferLib.Matchers/CodeSniffer.SnifferLib.Matchers.csproj $NUGET_PACK_PARAMS -p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+          dotnet pack CodeSniffer.SnifferLib.VsProjects/CodeSniffer.SnifferLib.VsProjects.csproj $NUGET_PACK_PARAMS -p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
+
+      - name: Publish NuGet and symbols
+        uses: edumserrano/nuget-push@v1.1.0
+        with:
+          api-key: '${{ secrets.NUGET_PUSH_API_KEY }}'
+          working-directory: 'output'
