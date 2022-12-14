@@ -41,8 +41,7 @@ jobs:
           dotnet pack CodeSniffer.SnifferLib.Matchers/CodeSniffer.SnifferLib.Matchers.csproj $NUGET_PACK_PARAMS -p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
           dotnet pack CodeSniffer.SnifferLib.VsProjects/CodeSniffer.SnifferLib.VsProjects.csproj $NUGET_PACK_PARAMS -p:Version=${{ steps.gitversion.outputs.nuGetVersion }}
 
-      - name: Publish NuGet and symbols
-        uses: edumserrano/nuget-push@v1.1.0
-        with:
-          api-key: '${{ secrets.NUGET_PUSH_API_KEY }}'
-          working-directory: 'output'
+      - name: Publish NuGet packages
+        run: dotnet nuget push ./output/*.nupkg -k ${NUGET_PUSH_API_KEY} -s https://api.nuget.org/v3/index.json --skip-duplicate
+        env:
+          NUGET_PUSH_API_KEY: ${{ secrets.NUGET_PUSH_API_KEY }}
