@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sniffer.Lib.Matchers.cs\Sniffer.Lib.Matchers.cs.csproj" />
+    <ProjectReference Include="..\CodeSniffer.SnifferLib.Matchers\CodeSniffer.SnifferLib.Matchers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

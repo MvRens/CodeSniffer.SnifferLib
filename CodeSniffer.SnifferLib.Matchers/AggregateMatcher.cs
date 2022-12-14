@@ -1,4 +1,4 @@
-﻿namespace Sniffer.Lib.Matchers.cs
+﻿namespace CodeSniffer.SnifferLib.Matchers
 {
     internal class AggregateMatcher : IMatcher
     {

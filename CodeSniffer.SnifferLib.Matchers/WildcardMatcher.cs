@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Sniffer.Lib.Matchers.cs
+namespace CodeSniffer.SnifferLib.Matchers
 {
     internal class WildcardMatcher : IMatcher
     {

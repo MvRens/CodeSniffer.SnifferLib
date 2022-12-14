@@ -1,11 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using CodeSniffer.Core.Sniffer;
+using CodeSniffer.SnifferLib.Matchers;
+using JetBrains.Annotations;
 using Microsoft.Build.Construction;
 using Serilog;
-using Sniffer.Lib.Matchers.cs;
 
-namespace Sniffer.Lib.VsProjects
+namespace CodeSniffer.SnifferLib.VsProjects
 {
+    /// <summary>
+    /// Provides a way to list Visual Studio projects in a folder, optionally only those belonging to a solution.
+    /// </summary>
+    [PublicAPI]
     public class VsProjectsEnumerator
     {
         private readonly ILogger logger;
@@ -13,6 +18,7 @@ namespace Sniffer.Lib.VsProjects
         private readonly IMatcher excludePathsMatcher;
 
 
+        /// <inheritdoc cref="VsProjectsEnumerator"/>
         public VsProjectsEnumerator(ILogger logger, CsReportBuilder builder, IMatcher excludePathsMatcher)
         {
             this.logger = logger;
@@ -21,6 +27,15 @@ namespace Sniffer.Lib.VsProjects
         }
 
 
+        /// <summary>
+        /// Searches the specified path for Visual Studio project files.
+        /// </summary>
+        /// <remarks>
+        /// At the time of writing, only .csproj projects are supported.
+        /// </remarks>
+        /// <param name="path">The path to search recursively</param>
+        /// <param name="solutionsOnly">If true, only project files referenced in a solution file are returned</param>
+        /// <returns>A list of discovered project files</returns>
         public IEnumerable<VsProject> GetProjects(string path, bool solutionsOnly)
         {
             return solutionsOnly
